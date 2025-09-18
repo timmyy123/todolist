@@ -1,0 +1,7 @@
+## Ignore Visual Studio workspace and index files
+.vs/
+*.vsidx
+
+# Node/Angular builds and deps (optional - keep frontend specific rules too)
+/node_modules
+/dist
