@@ -15,8 +15,8 @@ namespace backend.Services
     public Task<IReadOnlyList<Todo>> GetAllAsync(CancellationToken cancellationToken = default)
     {
       var list = _store.Values
-          .Orderby(t => t.CreatedAt)
-          .ToList();
+          .OrderBy(t => t.CreatedAt)
+          .ToList()
           .AsReadOnly();
       return Task.FromResult<IReadOnlyList<Todo>>(list);
     }
@@ -30,7 +30,7 @@ namespace backend.Services
 
     public Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-      return Task.FromResult(store.TryRemove(id, out _));
+      return Task.FromResult(_store.TryRemove(id, out _));
     }
   }
 }

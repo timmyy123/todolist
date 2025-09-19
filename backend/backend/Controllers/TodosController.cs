@@ -16,24 +16,24 @@ namespace backend.Controllers
   public class TodosController : ControllerBase
   {
     private readonly ITodoRepository _repo;
-    
-    public TodosController(ItodoRepository repo)
+
+    public TodosController(ITodoRepository repo)
     {
       _repo = repo;
     }
 
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<TodoResponse>), StatusCodes.Status200OK)]
-    public saync Task<IactionResult> GetAll(Cancellation ct)
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-      var items = await _repoGetAllAsync(ct);
+      var items = await _repo.GetAllAsync(ct);
       var response = items.Select(MapToResponse).ToList();
       return Ok(response);
     }
 
     [HttpPost]
     [ProducesResponseType(typeof(TodoResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(problemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateTodoRequest request, CancellationToken ct)
     {
       var title = request?.Title?.Trim() ?? string.Empty;
@@ -41,24 +41,24 @@ namespace backend.Controllers
       {
         return ValidationProblem(new ValidationProblemDetails(new Dictionary<string, string[]>
         {
-          ["Title"] = new[] { "Title is required" }
-        }))
+          ["title"] = new[] { "Title is required" }
+        }));
       }
 
       var created = await _repo.AddAsync(title, ct);
       var dto = MapToResponse(created);
-      return CreatedAtAction(nameof(GetAll), null, dto)
+      return CreatedAtAction(nameof(GetAll), null, dto);
     }
 
     [HttpDelete("{id:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(typeof(ProblemDetails), STatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
     {
       var removed = await _repo.DeleteAsync(id, ct);
-      if(!removed)
+      if (!removed)
       {
-        return NotFound()
+        return NotFound();
       }
       return NoContent();
     }
@@ -69,7 +69,7 @@ namespace backend.Controllers
       {
         Id = model.Id,
         Title = model.Title,
-        Created = model.CreatedAt.UtcDateTime
+        CreatedAt = model.CreatedAt.UtcDateTime
       };
     }
   }

@@ -8,13 +8,13 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("devCors", policy =>
+    options.AddPolicy("DevCors", policy =>
     {
         policy.WithOrigins("http://localhost:4200")
         .AllowAnyHeader()
         .AllowAnyMethod();
     })
-})
+});
 builder.Services.AddSingleton<backend.Services.ITodoRepository, backend.Services.InMemoryTodoRepository>();
 
 var app = builder.Build();
