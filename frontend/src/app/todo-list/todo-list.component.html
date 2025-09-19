@@ -1,0 +1,63 @@
+<div class="max-w-2xl mx-auto p-6">
+  <h1 class="text-3xl font-bold text-gray-800 mb-8">My TODOs</h1>
+  
+  <!-- Add Todo Form -->
+  <div class="mb-6">
+    <div class="flex gap-2">
+      <input 
+        [(ngModel)]="newTodoTitle"
+        (keyup.enter)="addTodo()"
+        placeholder="What needs to be done?"
+        class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [disabled]="isLoading"
+      />
+      <button 
+        (click)="addTodo()"
+        [disabled]="!newTodoTitle.trim() || isLoading"
+        class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+    {{ error }}
+    <button (click)="error = null" class="ml-2 text-red-500 hover:text-red-700">×</button>
+  </div>
+
+  <!-- Loading State (skeleton) -->
+  <div *ngIf="isLoading" class="space-y-2">
+    <div class="h-10 bg-gray-200 rounded animate-pulse"></div>
+    <div class="h-24 bg-gray-200 rounded animate-pulse"></div>
+    <div class="h-24 bg-gray-200 rounded animate-pulse"></div>
+  </div>
+
+  <!-- Todo List -->
+  <div *ngIf="!isLoading">
+    <div *ngIf="todos.length === 0" class="text-center py-8 text-gray-500">
+      <p class="text-lg">No todos yet!</p>
+      <p class="text-sm">Add your first todo above.</p>
+    </div>
+
+    <div *ngIf="todos.length > 0" class="space-y-2">
+      <div 
+        *ngFor="let todo of todos" 
+        class="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+      >
+        <div class="flex-1">
+          <p class="text-gray-800">{{ todo.title }}</p>
+          <p class="text-sm text-gray-500">{{ todo.createdAt | date:'short' }}</p>
+        </div>
+        <button 
+          (click)="deleteTodo(todo.id)"
+          class="ml-4 px-3 py-1 text-red-600 hover:text-red-800 hover:bg-red-50 rounded"
+          title="Delete todo"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
