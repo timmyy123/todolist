@@ -48,7 +48,7 @@
       >
         <div class="flex-1">
           <p class="text-gray-800">{{ todo.title }}</p>
-          <p class="text-sm text-gray-500">{{ todo.createdAt | date:'short' }}</p>
+          <p class="text-sm text-gray-500">{{ todo.createdAt | date:'dd-MM-yyyy' }}</p>
         </div>
         <button 
           (click)="deleteTodo(todo.id)"

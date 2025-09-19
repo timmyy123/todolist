@@ -69,7 +69,7 @@ namespace backend.Controllers
       {
         Id = model.Id,
         Title = model.Title,
-        CreatedAt = model.CreatedAt.UtcDateTime
+        CreatedAt = model.CreatedAt
       };
     }
   }

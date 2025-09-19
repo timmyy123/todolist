@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
         policy.WithOrigins("http://localhost:4200")
         .AllowAnyHeader()
         .AllowAnyMethod();
-    })
+    });
 });
 builder.Services.AddSingleton<backend.Services.ITodoRepository, backend.Services.InMemoryTodoRepository>();
 
